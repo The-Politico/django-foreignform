@@ -1,4 +1,15 @@
 .CodeMirror{
+  height: 250px;
   max-width: 850px;
   border: 1px solid lightgrey;
+
+  .CodeMirror-sizer{
+    min-height:250px;
+  }
+}
+
+@media (max-width: 767px) {
+  .CodeMirror{
+    width: calc(100% - 2px);
+  }
 }

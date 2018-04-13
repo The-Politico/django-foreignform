@@ -1,0 +1,17 @@
+{% extends "admin/change_form.html" %}
+{% load staticfiles %}
+
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script type="text/javascript">
+  window.foreignformField = '{{ foreignform_field }}';
+  window.foreignformForeignKey = '{{ foreignform_foreign_key }}';
+</script>
+<script src="{%static 'foreignform/js/main-add.js'%}"></script>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{%static 'foreignform/css/main-add.css'%}">
+{% endblock %}

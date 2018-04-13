@@ -8,15 +8,15 @@
   window.foreignformJSONSchema = {{foreignform_JSONSchema|safe}};
   window.foreignformUISchema = {{foreignform_UISchema|safe}};
 </script>
-<script src="{%static 'foreignform/js/main-app.js'%}"></script>
+<script src="{%static 'foreignform/js/main-change.js'%}"></script>
 {% endblock %}
 
 {% block after_field_sets %}
-<div id="foreignform" class="form-row">
-  <h3>Save the form for additional fields.</h3>
-</div>
+{{ block.super }}
+<div id="foreignform" class="form-row"></div>
 {% endblock %}
 
-{% block extrahead %}{{ block.super }}
-<link rel="stylesheet" href="{%static 'foreignform/css/main-app.css'%}">
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{%static 'foreignform/css/main-change.css'%}">
 {% endblock %}

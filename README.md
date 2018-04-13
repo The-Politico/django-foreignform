@@ -2,6 +2,74 @@
 
 # django-foreignform
 
+Define Django admin dynamic fieldsets in JSON.
+
+Uses Mozilla's [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) library to render a JSONSchema into dynamic fields in Django's admin and serialize those fields' values back to a native Django JSON field.
+
+### Why this?
+
+Let's explain by an example:
+
+At POLITICO, we use Django to model content.
+
+Often we'll define a model that represents an individual _piece_ of content and relate that model via a foreign key to another one representing a _type_ of content. A common problem across those models are _types_ that require a special field to contain information about a _piece_.
+
+Think of a story template. It will have some fields in common with all other types of stories. A title, a byline, etc. So we define a story model that has those fields.
+
+We know we have different types of stories -- feature pieces, breaking news items, whatever -- and so define a story template model to group story instances by a foreign key.
+
+In Django, our models now look like this:
+
+  ```python
+  class StoryTemplate(models.Model):
+    name = models.CharField()
+
+
+  class Story(models.Model):
+    story_type = models.ForeignKey(StoryTemplate)
+    headline = models.CharField()
+    # etc.
+  ```
+
+But now we realize we need a template for a video story. Can do, but this template needs a new field: a video embed code. No other story type needs this field.
+
+We now consider two options: 1) Add the embed field to our `Story` model, which will be useless for the 90% of our stories that are text-based. 2) Break out a new model, which will foreign key to `Story` and contain video-specific fields we can access via a reverse relationship.
+
+**We don't really like _either_ of those options.**
+
+In our mind, the video embed field belongs to our `StoryTemplate` because it applies to _all video stories_. So why can't we simply add it there? Well, because the _information contained in that field_ belongs to a `Story` instance, each with it's own individual embed code.
+
+What we really need is way to define fields on the `StoryTemplate` model that can be filled out in the `Story` model.
+
+With django-foreignform you can! We can use [JSON Schema](http://json-schema.org/) to define any fields specific to a template on our `StoryTemplate` model and then render those fields dynamically in a ModelAdmin for our `Story` model. As users fill out these dynamic fields, their values are serialized back to a JSON field on the `Story` model.
+
+So instead our models look something like this:
+
+  ```python
+  class StoryTemplate(models.Model):
+    name = models.CharField()
+    json_schema = JSONField()
+
+
+  class Story(models.Model):
+    story_type = models.ForeignKey(StoryTemplate)
+    headline = models.CharField()
+    form_data = JSONField()
+    # etc.
+  ```
+
+Long way to say, django-foreignform lets us write more robust models while keeping the relationships in our database very simple. It helps us avoid extra models to handle edge cases or cluttering up the models we have with rarely used fields.
+
+
+### Status
+
+This library is very early days for us. It may not be robust enough for your own production needs.
+
+Try it out, anyway! Pull requests welcome.
+
+<img width=50 src="docs/images/construction.png" />
+
+
 ### Quickstart
 
 1. Install the app.
@@ -15,20 +83,58 @@
   ```python
   INSTALLED_APPS = [
       # ...
-      'rest_framework',
       'foreignform',
   ]
+  ```
+3. Define a template model from our base class and an instance foreign-keyed to the first with a dedicated JSON field for your form data.
 
-  #########################
-  # foreignform settings
+  ```python
+  from foreignform.models import ForeignFormBaseModel
 
-  FOREIGNFORM_SECRET_KEY = ''
-  FOREIGNFORM_AWS_ACCESS_KEY_ID = ''
-  FOREIGNFORM_AWS_SECRET_ACCESS_KEY = ''
-  FOREIGNFORM_AWS_REGION = ''
-  FOREIGNFORM_AWS_S3_BUCKET = ''
-  FOREIGNFORM_CLOUDFRONT_ALTERNATE_DOMAIN = ''
-  FOREIGNFORM_S3_UPLOAD_ROOT = ''
+  class StoryTemplate(ForeignFormBaseModel):
+      name = models.CharField(max_length=100)
+      # ...
+
+  class Story(models.Model):
+      template = models.ForeignKey(StoryTemplate, on_delete=models.PROTECT)
+      name = models.CharField(max_length=100)
+      form_data = JSONField(blank=True, null=True)
+      # ...
+  ```
+4. Use our mixin to create a ModelAdmin for your foreign-keyed model with properties for the foreign key field and the JSON field for your form data.
+
+  ```python
+  from django.contrib import admin
+  from foreignform.mixins import ForeignFormAdminMixin
+  from .models import StoryTemplate, Story
+
+
+  class StoryAdmin(ForeignFormAdminMixin, admin.ModelAdmin):
+      foreignform_foreign_key = 'template'
+      foreignform_field = 'form_data'
+
+
+
+  admin.site.register(StoryTemplate)
+  admin.site.register(Story, StoryAdmin)
+  ```
+
+5. In the admin for a template model, define some fields on your model using [JSONSchema](http://json-schema.org/) syntax and react-jsonschema-form's [UI schema](https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object).
+
+  ![](docs/images/template-add.png)
+
+6. In the admin for an instance, create an instance with a foreign key to the template model. Click `Save and continue editing`.
+
+  ![](docs/images/instance-add.png)
+
+7. With the foreign key saved, you can now fill out fields defined in the template model's JSON schema. Behind the scenes, the formset is being serialized and saved to your instance model's JSON field.
+
+  ![](docs/images/instance-change.png)
+
+8. Use the serialized JSON data from your form in your model's JSON field.
+
+  ```python
+  Story.objects.first().form_data
   ```
 
 ### Developing

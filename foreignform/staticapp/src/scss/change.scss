@@ -5,12 +5,26 @@
   @import '~bootstrap-sass/assets/stylesheets/bootstrap/panels';
   @import '~bootstrap-sass/assets/stylesheets/bootstrap/type';
   margin-top: -30px;
+  padding: 0;
+  border-bottom: 0;
+
+  .form-row{
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
 
   .foreignform{
-    padding: 0 30px 0 0;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    padding: 20px 20px 20px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
     fieldset{
       max-width: 100%;
       border-top: 0;
+      .form-control{
+        box-sizing:border-box;
+      }
     }
     & > p{
       display: none;

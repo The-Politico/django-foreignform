@@ -21,7 +21,9 @@ class CodeMirrorWidget(widgets.Textarea):
         js = (
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/codemirror.min.js',  # noqa: E501
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/mode/javascript/javascript.min.js',  # noqa: E501
-            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/addon/selection/active-line.min.js',  # noqa: E501
+            'https://cdnjs.cloudflare.com/ajax/libs/jsonlint/1.6.0/jsonlint.min.js',  # noqa: E501
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/addon/lint/lint.min.js',  # noqa: E501
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/addon/lint/json-lint.min.js',  # noqa: E501
             'foreignform/js/codemirror.js',
         )
 
@@ -29,6 +31,7 @@ class CodeMirrorWidget(widgets.Textarea):
             'all': (
                 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/codemirror.min.css',  # noqa: E501
                 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/theme/cobalt.min.css',  # noqa: E501
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.36.0/addon/lint/lint.min.css',  # noqa: E501
                 'foreignform/css/codemirror.css',
             )
         }

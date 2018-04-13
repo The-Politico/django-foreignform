@@ -22,6 +22,9 @@ if (!!cmJQuery) {
         lineNumbers: true,
         lineWrapping: true,
         tabMode: "indent",
+        tabSize: 2,
+        gutters: ["CodeMirror-lint-markers"],
+        lint: true,
       });
       elem.cm = cm;
     });
