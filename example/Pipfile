@@ -19,6 +19,10 @@ djangorestframework = "*"
 dj-database-url = "*"
 "psycopg2" = "*"
 foreignform = {path = "./..", editable = true}
+setuptools = "*"
+pip = "*"
+wheel = "*"
+twine = "*"
 
 
 [dev-packages]
