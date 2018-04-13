@@ -56,7 +56,7 @@ So instead our models look something like this:
     # etc.
   ```
 
-We can then define our video field on the StoryTemplate like this:
+We can then define our video field via JSON schema on the `StoryTemplate` like this:
 
   ```json
   {
@@ -70,7 +70,7 @@ We can then define our video field on the StoryTemplate like this:
   }
   ```
 
-... which, once it's filled in by a user, may then look like this:
+... which, once it's filled in by a user on a `Story` model, may then serialize to data like this:
 
   ```json
   {
