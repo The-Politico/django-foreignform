@@ -56,7 +56,7 @@ So instead our models look something like this:
     # etc.
   ```
 
-And we may define the field on the StoryTemplate like this:
+We can then define our video field on the StoryTemplate like this:
 
   ```json
   {
@@ -70,14 +70,28 @@ And we may define the field on the StoryTemplate like this:
   }
   ```
 
-That's a long way to say, django-foreignform lets us write more robust models while keeping the relationships in our database very simple. It helps us avoid extra models to handle edge cases or cluttering up the models we have with rarely used fields.
+... which, once it's filled in by a user, may then look like this:
+
+  ```json
+  {
+    "video": "https://www.youtube.com/watch?v=wuK0f-Zur9A"
+  }
+  ```
+
+##### Upshot
+
+A long way to say django-foreignform lets us write more complex models while keeping the relationships in our database very simple. It helps us avoid extra models to handle edge cases or cluttering up the models we have with rarely used fields.
 
 
-### Status
+### Buyer beware
 
-This library is very early days for us. It may not be robust enough for your own production needs.
+This library is very early days for us. It may not be ready for your own production needs.
 
-Try it out, anyway! Pull requests welcome.
+Forms it creates definitely **should not** be used by anyone who's not a friend to your organization. While react-jsonschema-form gives us some light data validation options on the form it renders, you're trading against Django's robust model validation. It's also very easy for a bad actor to circumvent the form and insert values into the hidden JSON field.
+
+For all those reasons, this library only renders forms in Django's admin, which should encourage you to only give access to trusted staff.
+
+All that said, you should try it out! Pull requests welcome!
 
 <img width=50 src="docs/images/construction.png" />
 
