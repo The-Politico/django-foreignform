@@ -2,9 +2,9 @@
 
 # django-foreignform
 
-Define dynamic fieldsets for your Django ModelAdmin in JSON and store the schema to build them on a foreign-keyed model.
+Dynamic fieldsets for your Django ModelAdmin using JSON schema and react-jsonschema-form.
 
-Uses Mozilla's [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) library to render a JSONSchema into dynamic fields in Django's admin and serialize those fields' values back to a native Django JSON field.
+Define dynamic fieldsets with [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form). Store the schema on a foreign-keyed model. Serialize the fieldsets' back to a native Django JSON field in the admin.
 
 ### Why this?
 
