@@ -18,7 +18,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'foreignform',
     'tester',
 ]
@@ -86,14 +85,3 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-
-#########################
-# foreignform settings
-
-FOREIGNFORM_SECRET_KEY = ''
-FOREIGNFORM_AWS_ACCESS_KEY_ID = ''
-FOREIGNFORM_AWS_SECRET_ACCESS_KEY = ''
-FOREIGNFORM_AWS_REGION = ''
-FOREIGNFORM_AWS_S3_BUCKET = ''
-FOREIGNFORM_CLOUDFRONT_ALTERNATE_DOMAIN = ''
-FOREIGNFORM_S3_UPLOAD_ROOT = ''

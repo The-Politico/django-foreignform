@@ -2,8 +2,8 @@ from setuptools import find_packages, setup
 
 setup(
     name='django-foreignform',
-    version='0.0.0-alpha',
-    description='',
+    version='0.0.1',
+    description='Define dynamic fieldsets for your Django admin in JSON.',
     url='https://github.com/The-Politico/django-foreignform',
     author='POLITICO interactive news',
     author_email='interactives@politico.com',
@@ -23,9 +23,11 @@ setup(
     ],
     keywords='',
 
-    packages=find_packages(exclude=['docs', 'tests', 'example']),
+    packages=find_packages(exclude=['tests', 'example']),
 
-    install_requires=[],
+    install_requires=[
+        'psycopg2',
+    ],
 
     extras_require={
         'test': ['pytest'],

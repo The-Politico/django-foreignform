@@ -2,19 +2,17 @@
 
 # django-foreignform
 
-Define Django admin dynamic fieldsets in JSON.
+Define dynamic fieldsets for your Django admin in JSON.
 
 Uses Mozilla's [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) library to render a JSONSchema into dynamic fields in Django's admin and serialize those fields' values back to a native Django JSON field.
 
 ### Why this?
 
-Let's explain by an example:
-
-At POLITICO, we use Django to model content.
+Let's explain by an example: At POLITICO, we use Django to model content.
 
 Often we'll define a model that represents an individual _piece_ of content and relate that model via a foreign key to another one representing a _type_ of content. A common problem across those models are _types_ that require a special field to contain information about a _piece_.
 
-Think of a story template. It will have some fields in common with all other types of stories. A title, a byline, etc. So we define a story model that has those fields.
+Think of a story template. It will have some fields in common with all other types of stories: a title, a byline, etc. So we define a story model that has those fields.
 
 We know we have different types of stories -- feature pieces, breaking news items, whatever -- and so define a story template model to group story instances by a foreign key.
 
@@ -37,9 +35,9 @@ We now consider two options: 1) Add the embed field to our `Story` model, which 
 
 **We don't really like _either_ of those options.**
 
-In our mind, the video embed field belongs to our `StoryTemplate` because it applies to _all video stories_. So why can't we simply add it there? Well, because the _information contained in that field_ belongs to a `Story` instance, each with it's own individual embed code.
+In our mind, the video embed field belongs to our `StoryTemplate` because it applies to _all video stories_. So why can't we simply add it there? Well, because the _information contained in that field_ belongs to a `Story` instance, each with its own individual embed code.
 
-What we really need is way to define fields on the `StoryTemplate` model that can be filled out in the `Story` model.
+What we really need is a way to define fields on the `StoryTemplate` model that can be filled out in the `Story` ModelAdmin.
 
 With django-foreignform you can! We can use [JSON Schema](http://json-schema.org/) to define any fields specific to a template on our `StoryTemplate` model and then render those fields dynamically in a ModelAdmin for our `Story` model. As users fill out these dynamic fields, their values are serialized back to a JSON field on the `Story` model.
 
@@ -58,7 +56,21 @@ So instead our models look something like this:
     # etc.
   ```
 
-Long way to say, django-foreignform lets us write more robust models while keeping the relationships in our database very simple. It helps us avoid extra models to handle edge cases or cluttering up the models we have with rarely used fields.
+And we may define the field on the StoryTemplate like this:
+
+  ```json
+  {
+    "type": "object",
+    "properties": {
+      "video": {
+        "type": "string",
+        "title": "Video embed code"
+      }
+    }
+  }
+  ```
+
+That's a long way to say, django-foreignform lets us write more robust models while keeping the relationships in our database very simple. It helps us avoid extra models to handle edge cases or cluttering up the models we have with rarely used fields.
 
 
 ### Status
@@ -69,6 +81,11 @@ Try it out, anyway! Pull requests welcome.
 
 <img width=50 src="docs/images/construction.png" />
 
+
+### Requirements
+
+- PostgreSQL ≥ 9.4
+- Django ≥ 2.0
 
 ### Quickstart
 
