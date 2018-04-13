@@ -1,0 +1,29 @@
+var cmJQuery = null;
+
+if (typeof jQuery !== 'undefined') {
+  cmJQuery = jQuery;
+} else if (typeof django !== 'undefined') {
+  //use jQuery come with django admin
+  cmJQuery = django.jQuery
+} else {
+  console.error('Cant find jQuery, please make sure your have jQuery imported.');
+}
+
+if (!!cmJQuery) {
+  cmJQuery(function() {
+    cmJQuery.each(cmJQuery('.codemirror-editor'), function(i, elem) {
+      if (typeof elem.cm !== 'undefined') return;
+      var uuid = cmJQuery(elem).attr('data-uuid');
+      try {
+        elem.value = JSON.stringify(JSON.parse(elem.value), null, 2);
+      } catch(e) {}
+      var cm = CodeMirror.fromTextArea(elem, {
+        mode: { name: "javascript", json: true },
+        lineNumbers: true,
+        lineWrapping: true,
+        tabMode: "indent",
+      });
+      elem.cm = cm;
+    });
+  });
+}

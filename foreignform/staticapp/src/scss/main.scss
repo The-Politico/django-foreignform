@@ -1,0 +1,19 @@
+#foreignform{
+  @import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
+  @import '~bootstrap-sass/assets/stylesheets/bootstrap/mixins';
+  @import '~bootstrap-sass/assets/stylesheets/bootstrap/forms';
+  @import '~bootstrap-sass/assets/stylesheets/bootstrap/panels';
+  @import '~bootstrap-sass/assets/stylesheets/bootstrap/type';
+  margin-top: -30px;
+
+  .foreignform{
+    padding: 0 30px 0 0;
+    fieldset{
+      max-width: 100%;
+      border-top: 0;
+    }
+    & > p{
+      display: none;
+    }
+  }
+}
