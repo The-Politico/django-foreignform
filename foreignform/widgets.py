@@ -1,5 +1,3 @@
-import uuid
-
 from django.forms import widgets
 from django.utils.safestring import mark_safe
 
@@ -9,9 +7,7 @@ class CodeMirrorWidget(widgets.Textarea):
         if 'class' not in attrs.keys():
             attrs['class'] = ''
 
-        attrs['class'] += ' codemirror-editor'
-
-        attrs['data-uuid'] = str(uuid.uuid4())
+        attrs['class'] += ' codemirror-json-editor'
 
         html = super().render(name, value, attrs)
 

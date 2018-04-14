@@ -1,5 +1,7 @@
 import json
 
+from django.core.exceptions import FieldDoesNotExist
+
 
 class ForeignFormAdminMixin(object):
     foreignform_field = None
@@ -9,7 +11,16 @@ class ForeignFormAdminMixin(object):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         instance = self.model.objects.get(id=object_id)
-        fk = getattr(instance, self.foreignform_foreign_key)
+        fk = getattr(instance, self.foreignform_foreign_key, None)
+
+        if not fk:
+            raise FieldDoesNotExist(
+                'Field {} does not exist on model. Check the '
+                'foreignform_foreign_key attribute on your foreignform '
+                'ModelAdmin class.'.format(
+                    self.foreignform_foreign_key
+                )
+            )
 
         extra_context = extra_context or {}
         extra_context['foreignform_field'] = self.foreignform_field

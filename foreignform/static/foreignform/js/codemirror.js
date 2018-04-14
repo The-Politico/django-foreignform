@@ -11,9 +11,8 @@ if (typeof jQuery !== 'undefined') {
 
 if (!!cmJQuery) {
   cmJQuery(function() {
-    cmJQuery.each(cmJQuery('.codemirror-editor'), function(i, elem) {
+    cmJQuery.each(cmJQuery('.codemirror-json-editor'), function(i, elem) {
       if (typeof elem.cm !== 'undefined') return;
-      var uuid = cmJQuery(elem).attr('data-uuid');
       try {
         elem.value = JSON.stringify(JSON.parse(elem.value), null, 2);
       } catch(e) {}
