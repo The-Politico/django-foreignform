@@ -10,7 +10,7 @@ Define dynamic fieldsets with [react-jsonschema-form](https://github.com/mozilla
 
 ### Why this?
 
-Let's explain by an example: At POLITICO, we use Django to model content.
+Let's explain by way of an example: At POLITICO, we use Django to model content.
 
 Often we'll define a model that represents an individual _piece_ of content and relate that model via a foreign key to another one representing a _type_ of content. A common problem across those models are _types_ that require a special field to contain information about a _piece_.
 
