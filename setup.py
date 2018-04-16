@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='django-foreignform',
-    version='0.0.5',
+    version='0.0.6',
     description='Dynamic fieldsets for your Django ModelAdmin using JSON Schema and react-jsonschema-form.',
     url='https://github.com/The-Politico/django-foreignform',
     author='POLITICO interactive news',
