@@ -27,7 +27,7 @@ setup(
     include_package_data=True,
 
     install_requires=[
-        'psycopg2',
+        'psycopg2-binary',
     ],
 
     extras_require={
