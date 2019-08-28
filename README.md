@@ -122,6 +122,10 @@ All that said, you should try it out! Pull requests welcome!
 3. Define a template model from our base class and an instance foreign-keyed to the first with a dedicated JSON field for your form data.
 
   ```python
+  
+  from django.contrib.postgres.fields import JSONField
+  from django.db import models
+  
   from foreignform.models import ForeignFormBaseModel
 
   class StoryTemplate(ForeignFormBaseModel):
