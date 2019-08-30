@@ -3,4 +3,4 @@ const gulp = require('./gulp')([
   'build',
 ]);
 
-gulp.task('default', ['dev']);
+gulp.task('default', gulp.series('dev'));

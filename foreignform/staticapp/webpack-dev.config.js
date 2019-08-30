@@ -23,12 +23,13 @@ module.exports = port => ({
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: {
+        use: [
+          {
           loader: 'babel-loader',
           options: {
             presets: [
               [
-                'env',
+                '@babel/preset-env',
                 {
                   targets: {
                     browsers: ['last 2 versions'],
@@ -37,25 +38,39 @@ module.exports = port => ({
                   modules: false,
                 },
               ],
-              'react',
-              'stage-0',
+              '@babel/preset-react',
               'airbnb',
+            ],
+            plugins: [
+              "@babel/plugin-proposal-function-bind",
             ],
           },
         },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: {
+            loader: 'file-loader',
+          }
+      },
+      {
+        test: /\.(ttf|eot|woff2|woff|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'fonts/bootstrap',
+              name: '[name].[ext]'
+            }
+          }
       },
       {
         test: /\.scss$/,
         use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'postcss-loader',
-          },
-          {
-            loader: 'sass-loader',
-          },
+          'css-loader',
+          'postcss-loader', 
+          'resolve-url-loader',
+          'sass-loader',
         ],
       },
     ],
