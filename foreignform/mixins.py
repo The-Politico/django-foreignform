@@ -1,6 +1,13 @@
 import json
-
+from functools import reduce
 from django.core.exceptions import FieldDoesNotExist
+
+
+def rgetattr(obj, attr, *args):
+    def _getattr(obj, attr):
+        return getattr(obj, attr, *args)
+
+    return reduce(_getattr, [obj] + attr.split("."))
 
 
 class ForeignFormAdminMixin(object):
@@ -13,7 +20,7 @@ class ForeignFormAdminMixin(object):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         instance = self.model.objects.get(id=object_id)
-        fk = getattr(instance, self.foreignform_foreign_key, None)
+        fk = rgetattr(instance, self.foreignform_foreign_key)
 
         if not fk:
             raise FieldDoesNotExist(

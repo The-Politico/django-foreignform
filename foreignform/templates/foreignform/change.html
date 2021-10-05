@@ -1,5 +1,5 @@
 {% extends "admin/change_form.html" %}
-{% load staticfiles %}
+{% load static %}
 
 {% block admin_change_form_document_ready %}
 {{ block.super }}
@@ -8,7 +8,7 @@
   window.foreignformJSONSchema = {{foreignform_JSONSchema|safe}};
   window.foreignformUISchema = {{foreignform_UISchema|safe}};
 </script>
-<script src="{%static 'foreignform/js/main-change.js'%}"></script>
+<script src="{% static 'foreignform/js/main-change.js'%}"></script>
 {% endblock %}
 
 {% block after_field_sets %}
@@ -18,5 +18,5 @@
 
 {% block extrahead %}
 {{ block.super }}
-<link rel="stylesheet" href="{%static 'foreignform/css/main-change.css'%}">
+<link rel="stylesheet" href="{% static 'foreignform/css/main-change.css'%}">
 {% endblock %}
